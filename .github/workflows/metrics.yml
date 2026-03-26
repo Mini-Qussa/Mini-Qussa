@@ -1,0 +1,34 @@
+name: Metrics
+on:
+  schedule: [{ cron: "0 0 * * *" }] # Обновление раз в сутки
+  workflow_dispatch: # Ручной запуск из вкладки Actions
+
+permissions:
+  contents: write # Разрешение на запись SVG-файла в репозиторий
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          # --- ОСНОВНЫЕ НАСТРОЙКИ ---
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: Mini-Qussa
+          template: classic
+          base: header, metadata
+          config_timezone: Europe/Moscow
+          committer_token: ${{ secrets.METRICS_TOKEN }}
+
+          # --- СТИЛЬ ---
+          config_display: large
+          config_theme: dark
+          config_colorscheme: monochrome
+          design_outlines: yes
+
+          # --- ЯЗЫКИ ---
+          plugin_languages: yes
+          plugin_languages_details: percentage, bytes-size
+          plugin_languages_ignored: css, scss, tex, markdown
+          plugin_languages_limit: 8
+          plugin_languages_sections: most-used
